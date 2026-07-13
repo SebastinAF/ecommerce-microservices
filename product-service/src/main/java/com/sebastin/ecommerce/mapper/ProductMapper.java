@@ -13,8 +13,7 @@ public class ProductMapper {
         return new Product(
                 request.getName(),
                 request.getDescription(),
-                request.getPrice(),
-                request.getStockQuantity());
+                request.getPrice());
     }
 
     public ProductResponse toResponse(Product product) {
@@ -22,8 +21,7 @@ public class ProductMapper {
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
-                product.getPrice(),
-                product.getStockQuantity());
+                product.getPrice());
     }
 
     public void updateEntity(
@@ -33,6 +31,5 @@ public class ProductMapper {
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
-        product.setStockQuantity(request.getStockQuantity());
     }
 }

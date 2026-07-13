@@ -1,9 +1,7 @@
 package com.sebastin.ecommerce.entity;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-
 
 @Entity
 @Table(name = "products")
@@ -21,16 +19,12 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
-    private Integer stockQuantity;
-
     public Product(){}
 
-    public Product(String name, String description, BigDecimal price, Integer stockQuantity){
+    public Product(String name, String description, BigDecimal price){
         this.name = name;
         this.description = description;
         this.price = price;
-        this.stockQuantity = stockQuantity;
     }
 
     public String getName() {
@@ -55,14 +49,6 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Integer getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(Integer stockQuantity) {
-        this.stockQuantity = stockQuantity;
     }
 
     public Long getId() {

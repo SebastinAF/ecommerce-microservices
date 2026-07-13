@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.mockito.Mockito.never;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -44,11 +43,10 @@ public class ProductServiceTest {
         request.setName("Laptop");
         request.setDescription("gaming laptop");
         request.setPrice(new BigDecimal("50000.00"));
-        request.setStockQuantity(10);
 
-        Product product = new Product("Laptop", "Gaming Laptop", new BigDecimal("50000.00"), 10);
-        Product savedProduct = new Product("Laptop", "Gaming Laptop", new BigDecimal("50000.00"), 10);
-        ProductResponse expectedResponse = new ProductResponse(1L, "Laptop", "Gaming Laptop", new BigDecimal("50000.00"), 10);
+        Product product = new Product("Laptop", "Gaming Laptop", new BigDecimal("50000.00"));
+        Product savedProduct = new Product("Laptop", "Gaming Laptop", new BigDecimal("50000.00"));
+        ProductResponse expectedResponse = new ProductResponse(1L, "Laptop", "Gaming Laptop", new BigDecimal("50000.00"));
 
         when(productMapper.toEntity(request)).thenReturn(product);
         when(productRepository.save(product)).thenReturn(savedProduct);
@@ -65,7 +63,6 @@ public class ProductServiceTest {
         assertEquals(1L, actualResponse.getId());
         assertEquals("Laptop", actualResponse.getName());
         assertEquals(new BigDecimal("50000.00"), actualResponse.getPrice());
-        assertEquals(10, actualResponse.getStockQuantity());
     }
 
     //Test 2
@@ -78,16 +75,14 @@ public class ProductServiceTest {
         Product product = new Product(
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         ProductResponse expectedResponse = new ProductResponse(
                 1L,
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         when(productRepository.findById(productId))
@@ -109,7 +104,6 @@ public class ProductServiceTest {
                 new BigDecimal("50000.00"),
                 actualResponse.getPrice()
         );
-        assertEquals(10, actualResponse.getStockQuantity());
 
         verify(productRepository).findById(productId);
         verify(productMapper).toResponse(product);
@@ -123,7 +117,6 @@ public class ProductServiceTest {
 
         when(productRepository.findById(productId))
                 .thenReturn(Optional.empty());
-
 
         // Act
         ProductNotFoundException exception = assertThrows(
@@ -150,15 +143,13 @@ public class ProductServiceTest {
         Product product1 = new Product(
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         Product product2 = new Product(
                 "Mobile",
                 "Samsung Mobile",
-                new BigDecimal("20000.00"),
-                20
+                new BigDecimal("20000.00")
         );
 
         List<Product> products = List.of(product1, product2);
@@ -168,16 +159,14 @@ public class ProductServiceTest {
                 1L,
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         ProductResponse response2 = new ProductResponse(
                 2L,
                 "Mobile",
                 "Samsung Mobile",
-                new BigDecimal("20000.00"),
-                20
+                new BigDecimal("20000.00")
         );
 
 
@@ -189,7 +178,6 @@ public class ProductServiceTest {
 
         when(productMapper.toResponse(product2))
                 .thenReturn(response2);
-
 
         // Act
         List<ProductResponse> actualResponses =
@@ -243,21 +231,18 @@ public class ProductServiceTest {
         request.setName("Updated Laptop");
         request.setDescription("Updated Gaming Laptop");
         request.setPrice(new BigDecimal("60000.00"));
-        request.setStockQuantity(15);
 
         Product existingProduct = new Product(
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         ProductResponse expectedResponse = new ProductResponse(
                 1L,
                 "Updated Laptop",
                 "Updated Gaming Laptop",
-                new BigDecimal("60000.00"),
-                15
+                new BigDecimal("60000.00")
         );
 
         when(productRepository.findById(productId))
@@ -265,7 +250,6 @@ public class ProductServiceTest {
 
         when(productMapper.toResponse(existingProduct))
                 .thenReturn(expectedResponse);
-
 
         // Act
         ProductResponse actualResponse =
@@ -279,7 +263,6 @@ public class ProductServiceTest {
                 new BigDecimal("60000.00"),
                 actualResponse.getPrice()
         );
-        assertEquals(15, actualResponse.getStockQuantity());
 
         verify(productRepository).findById(productId);
 
@@ -302,7 +285,6 @@ public class ProductServiceTest {
         request.setName("Updated Laptop");
         request.setDescription("Updated Gaming Laptop");
         request.setPrice(new BigDecimal("60000.00"));
-        request.setStockQuantity(15);
 
         when(productRepository.findById(productId))
                 .thenReturn(Optional.empty());
@@ -333,17 +315,14 @@ public class ProductServiceTest {
         Product product = new Product(
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         when(productRepository.findById(productId))
                 .thenReturn(Optional.of(product));
 
-
         // Act
         productService.deleteProduct(productId);
-
 
         // Assert
         verify(productRepository).findById(productId);

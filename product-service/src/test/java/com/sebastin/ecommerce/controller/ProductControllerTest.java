@@ -52,14 +52,12 @@ class ProductControllerTest {
         request.setName("Laptop");
         request.setDescription("Gaming Laptop");
         request.setPrice(new BigDecimal("50000.00"));
-        request.setStockQuantity(10);
 
         ProductResponse response = new ProductResponse(
                 1L,
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         when(productService.createProduct(any(ProductRequest.class)))
@@ -75,8 +73,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Laptop"))
                 .andExpect(jsonPath("$.description").value("Gaming Laptop"))
-                .andExpect(jsonPath("$.price").value(50000.00))
-                .andExpect(jsonPath("$.stockQuantity").value(10));
+                .andExpect(jsonPath("$.price").value(50000.00));
 
         verify(productService)
                 .createProduct(any(ProductRequest.class));
@@ -90,7 +87,6 @@ class ProductControllerTest {
         request.setName("");
         request.setDescription("Gaming Laptop");
         request.setPrice(new BigDecimal("-50000.00"));
-        request.setStockQuantity(-10);
 
         mockMvc.perform(
                         post("/api/products")
@@ -101,9 +97,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.name")
                         .value("Product name is required"))
                 .andExpect(jsonPath("$.price")
-                        .value("Product Price must be greater then zero"))
-                .andExpect(jsonPath("$.stockQuantity")
-                        .value("Stock quantity Can Not be negative"));
+                        .value("Product Price must be greater then zero"));
 
         verify(productService, never())
                 .createProduct(any(ProductRequest.class));
@@ -119,8 +113,7 @@ class ProductControllerTest {
                 1L,
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         when(productService.getProductById(productId))
@@ -133,8 +126,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Laptop"))
                 .andExpect(jsonPath("$.description").value("Gaming Laptop"))
-                .andExpect(jsonPath("$.price").value(50000.00))
-                .andExpect(jsonPath("$.stockQuantity").value(10));
+                .andExpect(jsonPath("$.price").value(50000.00));
 
         verify(productService).getProductById(productId);
     }
@@ -166,16 +158,14 @@ class ProductControllerTest {
                 1L,
                 "Laptop",
                 "Gaming Laptop",
-                new BigDecimal("50000.00"),
-                10
+                new BigDecimal("50000.00")
         );
 
         ProductResponse response2 = new ProductResponse(
                 2L,
                 "Mobile",
                 "Samsung Mobile",
-                new BigDecimal("20000.00"),
-                20
+                new BigDecimal("20000.00")
         );
 
         when(productService.getAllProducts())
@@ -226,14 +216,12 @@ class ProductControllerTest {
         request.setName("Updated Laptop");
         request.setDescription("Updated Gaming Laptop");
         request.setPrice(new BigDecimal("60000.00"));
-        request.setStockQuantity(15);
 
         ProductResponse response = new ProductResponse(
                 1L,
                 "Updated Laptop",
                 "Updated Gaming Laptop",
-                new BigDecimal("60000.00"),
-                15
+                new BigDecimal("60000.00")
         );
 
         when(productService.updateProduct(
@@ -251,8 +239,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Updated Laptop"))
                 .andExpect(jsonPath("$.description").value("Updated Gaming Laptop"))
-                .andExpect(jsonPath("$.price").value(60000.00))
-                .andExpect(jsonPath("$.stockQuantity").value(15));
+                .andExpect(jsonPath("$.price").value(60000.00));
 
         verify(productService).updateProduct(
                 eq(productId),
@@ -271,7 +258,6 @@ class ProductControllerTest {
         request.setName("");
         request.setDescription("Updated Gaming Laptop");
         request.setPrice(new BigDecimal("-60000.00"));
-        request.setStockQuantity(-15);
 
         // Act + Assert
         mockMvc.perform(
@@ -283,9 +269,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.name")
                         .value("Product name is required"))
                 .andExpect(jsonPath("$.price")
-                        .value("Product Price must be greater then zero"))
-                .andExpect(jsonPath("$.stockQuantity")
-                        .value("Stock quantity Can Not be negative"));
+                        .value("Product Price must be greater then zero"));
 
         verify(productService, never())
                 .updateProduct(
@@ -305,7 +289,6 @@ class ProductControllerTest {
         request.setName("Updated Laptop");
         request.setDescription("Updated Gaming Laptop");
         request.setPrice(new BigDecimal("60000.00"));
-        request.setStockQuantity(15);
 
         when(productService.updateProduct(
                 eq(productId),

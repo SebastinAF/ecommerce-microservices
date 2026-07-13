@@ -8,16 +8,14 @@ public class ProductResponse {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer stockQuantity;
 
     public ProductResponse() {}
 
-    public ProductResponse(long id, String name, String description, BigDecimal price, Integer stockQuantity) {
+    public ProductResponse(long id, String name, String description, BigDecimal price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.stockQuantity = stockQuantity;
     }
 
     public Long getId() {
@@ -34,9 +32,5 @@ public class ProductResponse {
 
     public BigDecimal getPrice() {
         return price;
-    }
-
-    public Integer getStockQuantity() {
-        return stockQuantity;
     }
 }
