@@ -1,5 +1,7 @@
 package com.sebastin.inventory_service.service;
 
+import com.sebastin.inventory_service.client.dto.ProductResponse;
+import com.sebastin.inventory_service.client.ProductClient;
 import com.sebastin.inventory_service.dto.InventoryRequest;
 import com.sebastin.inventory_service.dto.InventoryResponse;
 import com.sebastin.inventory_service.entity.Inventory;
@@ -14,15 +16,22 @@ public class InventoryService {
     private final InventoryRepository inventoryRepository;
     private final InventoryMapper inventoryMapper;
 
+    //For check the product exist or not.
+    private final ProductClient productClient;
+
     public InventoryService(
             InventoryRepository inventoryRepository,
-            InventoryMapper inventoryMapper
-    ) {
+            InventoryMapper inventoryMapper,
+            ProductClient productClient) {
+
         this.inventoryRepository = inventoryRepository;
         this.inventoryMapper = inventoryMapper;
+        this.productClient = productClient;
     }
 
     public InventoryResponse createInventory(InventoryRequest request) {
+
+        productClient.getProductById(request.getProductId());
 
         Inventory inventory = inventoryMapper.toEntity(request);
 

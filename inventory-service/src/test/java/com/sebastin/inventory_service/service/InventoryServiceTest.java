@@ -1,5 +1,6 @@
 package com.sebastin.inventory_service.service;
 
+import com.sebastin.inventory_service.client.ProductClient;
 import com.sebastin.inventory_service.dto.InventoryRequest;
 import com.sebastin.inventory_service.dto.InventoryResponse;
 import com.sebastin.inventory_service.entity.Inventory;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.sebastin.inventory_service.client.dto.ProductResponse;
 
 import java.util.Optional;
 
@@ -27,13 +29,17 @@ class InventoryServiceTest {
     @Mock
     private InventoryMapper inventoryMapper;
 
+    @Mock
+    private ProductClient productClient;
+
     private InventoryService inventoryService;
 
     @BeforeEach
     void setUp() {
         inventoryService = new InventoryService(
                 inventoryRepository,
-                inventoryMapper
+                inventoryMapper,
+                productClient
         );
     }
 
@@ -62,6 +68,12 @@ class InventoryServiceTest {
                 10
         );
 
+        ProductResponse product = new ProductResponse();
+        product.setId(1L);
+
+        when(productClient.getProductById(1L))
+                .thenReturn(product);
+
         when(inventoryMapper.toEntity(request))
                 .thenReturn(inventory);
 
@@ -76,6 +88,7 @@ class InventoryServiceTest {
                 inventoryService.createInventory(request);
 
         // Assert
+        verify(productClient).getProductById(1L);
         assertEquals(1L, actualResponse.getId());
         assertEquals(1L, actualResponse.getProductId());
         assertEquals(10, actualResponse.getQuantity());
