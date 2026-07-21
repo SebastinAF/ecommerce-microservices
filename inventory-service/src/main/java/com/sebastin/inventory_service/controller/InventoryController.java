@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/inventories")
 public class InventoryController {
@@ -28,6 +30,11 @@ public class InventoryController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @GetMapping
+    public List<InventoryResponse> getAllInventory() {
+        return inventoryService.getAllInventory();
     }
 
     @GetMapping("/product/{productId}")

@@ -1,6 +1,5 @@
 package com.sebastin.inventory_service.service;
 
-import com.sebastin.inventory_service.client.dto.ProductResponse;
 import com.sebastin.inventory_service.client.ProductClient;
 import com.sebastin.inventory_service.dto.InventoryRequest;
 import com.sebastin.inventory_service.dto.InventoryResponse;
@@ -9,6 +8,8 @@ import com.sebastin.inventory_service.exception.InventoryNotFoundException;
 import com.sebastin.inventory_service.mapper.InventoryMapper;
 import com.sebastin.inventory_service.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class InventoryService {
@@ -38,6 +39,13 @@ public class InventoryService {
         Inventory savedInventory = inventoryRepository.save(inventory);
 
         return inventoryMapper.toResponse(savedInventory);
+    }
+
+    public List<InventoryResponse> getAllInventory() {
+        return inventoryRepository.findAll()
+                .stream()
+                .map(inventoryMapper::toResponse)
+                .toList();
     }
 
     public InventoryResponse getInventoryByProductId(Long productId) {
